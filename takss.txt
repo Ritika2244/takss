@@ -1,0 +1,311 @@
+
+In [1]
+
+!pip install pandas
+​
+Requirement already satisfied: pandas in c:\users\ritika sharma\anaconda3\lib\site-packages (1.1.3)
+Requirement already satisfied: numpy>=1.15.4 in c:\users\ritika sharma\anaconda3\lib\site-packages (from pandas) (1.19.2)
+Requirement already satisfied: pytz>=2017.2 in c:\users\ritika sharma\anaconda3\lib\site-packages (from pandas) (2020.1)
+Requirement already satisfied: python-dateutil>=2.7.3 in c:\users\ritika sharma\anaconda3\lib\site-packages (from pandas) (2.8.1)
+Requirement already satisfied: six>=1.5 in c:\users\ritika sharma\anaconda3\lib\site-packages (from python-dateutil>=2.7.3->pandas) (1.15.0)
+
+
+In [23]:
+
+!pip install numpy
+
+Requirement already satisfied: numpy in c:\users\ritika sharma\anaconda3\lib\site-packages (1.19.2)
+
+
+In [24]:
+
+
+!conda install seaborn
+
+Collecting package metadata (current_repodata.json): ...working... done
+Solving environment: ...working... done
+
+# All requested packages already installed.
+
+In [4]:
+
+!pip install matplotlib
+​
+Requirement already satisfied: matplotlib in c:\users\ritika sharma\anaconda3\lib\site-packages (3.3.2)
+Requirement already satisfied: kiwisolver>=1.0.1 in c:\users\ritika sharma\anaconda3\lib\site-packages (from matplotlib) (1.3.0)
+Requirement already satisfied: pillow>=6.2.0 in c:\users\ritika sharma\anaconda3\lib\site-packages (from matplotlib) (8.0.1)
+Requirement already satisfied: cycler>=0.10 in c:\users\ritika sharma\anaconda3\lib\site-packages (from matplotlib) (0.10.0)
+Requirement already satisfied: python-dateutil>=2.1 in c:\users\ritika sharma\anaconda3\lib\site-packages (from matplotlib) (2.8.1)
+Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,>=2.0.3 in c:\users\ritika sharma\anaconda3\lib\site-packages (from matplotlib) (2.4.7)
+Requirement already satisfied: certifi>=2020.06.20 in c:\users\ritika sharma\anaconda3\lib\site-packages (from matplotlib) (2020.6.20)
+Requirement already satisfied: numpy>=1.15 in c:\users\ritika sharma\anaconda3\lib\site-packages (from matplotlib) (1.19.2)
+Requirement already satisfied: six in c:\users\ritika sharma\anaconda3\lib\site-packages (from cycler>=0.10->matplotlib) (1.15.
+
+
+
+Task 1: Prediction using Supervised ML
+
+In [29]:
+
+
+#To Predict the percentage of an student based on the no. of study hours.
+# Importing all the required libraries
+​
+import pandas as pd 
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+In [30}:
+
+# Loading the dataset
+url = "https://raw.githubusercontent.com/AdiPersonalWorks/Random/master/student_scores%20-%20student_scores.csv"
+df = pd.read_csv(url)
+print("Data imported successfully")
+
+
+Data imported successfully
+
+In [31]:
+# First 10 rows of dataset
+df.head(10)
+
+Out[31]:
+
+Hours
+
+Scores
+
+
+0
+2.5 21 
+
+1
+5.1 47 
+
+2
+3.2 27 
+
+3
+8.5 75 
+
+4
+3.5 30 
+
+5
+1.5 20 
+
+6
+9.2 88 
+
+7
+5.5 60 
+
+8
+8.3 81 
+
+9
+2.7 25 
+
+
+In [32]:
+
+# Last 5 rows of dataset
+df.tail()
+
+Out[32]:
+
+Hours
+
+Scores
+
+20
+2.7 30 
+
+21
+4.8 54 
+
+22
+3.8 35 
+
+23
+6.9 76 
+
+24
+7.8 86 
+
+
+In [33]:
+
+df.describe()
+
+
+Out[33]:
+
+
+
+Hours
+
+Scores
+
+count
+25.000000 25.000000 
+
+mean
+5.012000 51.480000 
+
+std
+2.525094 25.286887 
+
+min
+1.100000 17.000000 
+
+25%
+2.700000 30.000000 
+
+50%
+4.800000 47.000000 
+
+75%
+7.400000 75.000000 
+
+max
+9.200000 95.000000 
+
+In [37]:
+
+df.info()
+
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 25 entries, 0 to 24
+Data columns (total 2 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   Hours   25 non-null     float64
+ 1   Scores  25 non-null     int64  
+dtypes: float64(1), int64(1)
+memory usage: 528.0 bytes
+
+Plotting the Distribution
+
+
+In [38]:
+
+# Plotting the distribution of scores
+df.plot(x='Hours', y='Scores', style='.')  
+plt.title('Hours vs Percentage')  
+plt.xlabel('Hours Studied')  
+plt.ylabel('Percentage Score')  
+plt.show()
+Preparation of the given Data
+
+In [39]:
+
+
+# Dividing the Data into attributes(input) and labels(output)
+X = df.iloc[:, :-1].values  
+y = df.iloc[:, 1].values
+
+In [40]:
+
+# Splitting this data into training and test sets by using Scikit-Learn's built-in train_test_split() method:
+from sklearn.model_selection import train_test_split 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0:
+
+
+
+To Train the Algorithm
+
+
+
+
+In [41]:
+
+# Splitting of data into training and testing sets is done, and now is finally the time to train our algorithm.
+from sklearn.linear_model import LinearRegression  
+regressor = LinearRegression()  
+regressor.fit(X_train, y_train) 
+​
+print("Training complete.")
+​
+Training complete.
+
+In [42]:
+
+# Plotting the regression line
+line = regressor.coef_*X+regressor.intercept_
+​
+# Plotting for the test data
+plt.scatter(X, y)
+plt.plot(X, line);
+plt.show()
+
+Making Predictions
+
+In [43]:
+
+#  Some predictions after the algorithm is trained
+print(X_test) # Testing data - in Hours
+y_pred = regressor.predict(X_test) # Predicting the scores
+
+
+[[1.5]
+ [3.2]
+ [7.4]
+ [2.5]
+ [5.9]]
+
+
+In [44]:
+
+# Comparing Actual vs Predicted
+df1 = pd.DataFrame({'Actual': y_test, 'Predicted': y_pred})  
+df1
+
+Out[44]:
+
+Actual
+
+Predicted
+
+
+0
+20 16.884145 
+
+1
+27 33.732261 
+
+2
+69 75.357018 
+
+3
+30 26.794801 
+
+4
+62 60.491033 
+
+Predicting score if a student studies for 9.25 hrs/ data
+
+In [45]:
+
+# Predicting the percentage of the student who studies for 9.25 hrs/day
+hours = np.array(9.25)
+hours = hours.reshape(-1, 1)
+pred = regressor.predict(hours)
+print("No of Hours = {}".format(hours))
+print("Predicted Score = {}".format(pred[0]))
+
+No of Hours = [[9.25]]
+Predicted Score = 93.69173248737538
+
+Evaluating the Model
+In [46]:
+
+# The final step is to evaluate the performance of algorithm
+from sklearn import metrics  
+print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))
+Mean Absolute Error: 4.183859899002975
+
+
+
+Conclusion From the above we have seen that the predicting score of the model is 93.69 with mean absolute error 4.18 which is pretty much accurate
